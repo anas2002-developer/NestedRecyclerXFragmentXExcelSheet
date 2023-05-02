@@ -44,19 +44,17 @@ public class MainActivity extends AppCompatActivity {
         layDL.addDrawerListener(toggle);
         toggle.syncState();
 
-        if (savedInstanceState==null){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.layFL, new HomeFragment())
-                    .commit();
+        if (savedInstanceState == null) {
+            loadFrag(new HomeFragment());
             vNV.setCheckedItem(R.id.home_item);
         }
 
         NavClick();
-}
+    }
 
     private void NavClick() {
         vNV.setNavigationItemSelectedListener(item -> {
-            Fragment frag=null;
+            Fragment frag = null;
             switch (item.getItemId()) {
 
                 case R.id.home_item:
@@ -77,25 +75,29 @@ public class MainActivity extends AppCompatActivity {
             }
             layDL.closeDrawer(GravityCompat.START);
 
-            if (frag!=null) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.layFL, frag)
-                        .commit();
+            if (frag != null) {
+                loadFrag(frag);
             }
 
             return true;
         });
     }
 
+    private void loadFrag(Fragment frag) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layFL, frag)
+                .commit();
+    }
 
     @Override
     public void onBackPressed() {
         Fragment currFrag = getSupportFragmentManager().findFragmentById(R.id.layFL);
-        HomeFragment homeFragment=new HomeFragment();
-        if (currFrag!=new HomeFragment()){
-            getSupportFragmentManager().beginTransaction().replace(R.id.layFL,new HomeFragment());
-        } else if (layDL.isDrawerOpen(GravityCompat.START)) {
+        if (layDL.isDrawerOpen(GravityCompat.START)){
             layDL.closeDrawer(GravityCompat.START);
+        }
+        else if(currFrag!=new HomeFragment()) {
+            loadFrag(new HomeFragment());
+            vNV.setCheckedItem(R.id.home_item);
         }
         else {
             super.onBackPressed();

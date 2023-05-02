@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     tools:context=".Fragments.HomeFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Home" />
+        tools:listitem="@layout/inner_row"
+        android:id="@+id/vRV" />
 
 </LinearLayout>
